@@ -1,0 +1,570 @@
+/* ═══════════════════════════════════════════════════
+   PETAL — Flower Search Engine
+   style.css
+   ═══════════════════════════════════════════════════ */
+
+/* ── Custom Properties ── */
+:root {
+  --cream:        #fdf6ee;
+  --parchment:    #f5ead8;
+  --blush:        #f2c4c4;
+  --blush-deep:   #e8aaaa;
+  --rose:         #d98b8b;
+  --dusty-rose:   #c67b7b;
+  --sage:         #8faa8b;
+  --sage-light:   #b8cdb5;
+  --sage-pale:    #e8f0e7;
+  --mauve:        #b07b96;
+  --lavender:     #c9b8d8;
+  --lav-pale:     #ede8f5;
+  --warm-brown:   #8b6355;
+  --ink:          #3d2b1f;
+  --ink-light:    #6b4f3a;
+  --ink-faint:    #9b7e6a;
+  --white-warm:   #fffcf8;
+  --shadow-soft:  rgba(139, 99, 85, 0.10);
+  --shadow-hover: rgba(217, 139, 139, 0.22);
+  --radius-card:  22px;
+  --radius-pill:  50px;
+  --transition:   0.25s ease;
+}
+
+/* ── Reset & Base ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Lora', Georgia, serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ctext y='22' font-size='20'%3E🌸%3C/text%3E%3C/svg%3E") 14 14, auto;
+  position: relative;
+}
+
+/* ── Ambient Blobs ── */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(60px);
+  opacity: 0.55;
+}
+.blob-1 {
+  width: 560px; height: 560px;
+  top: -140px; right: -120px;
+  background: radial-gradient(ellipse, #f2c4c4 0%, transparent 70%);
+  animation: blobDrift1 18s ease-in-out infinite alternate;
+}
+.blob-2 {
+  width: 480px; height: 480px;
+  bottom: -120px; left: -100px;
+  background: radial-gradient(ellipse, #b8cdb5 0%, transparent 70%);
+  animation: blobDrift2 22s ease-in-out infinite alternate;
+}
+.blob-3 {
+  width: 320px; height: 320px;
+  top: 40%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, #c9b8d8 0%, transparent 70%);
+  animation: blobDrift3 26s ease-in-out infinite alternate;
+  opacity: 0.3;
+}
+@keyframes blobDrift1 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(-30px, 40px) scale(1.05); }
+}
+@keyframes blobDrift2 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(40px, -30px) scale(1.08); }
+}
+@keyframes blobDrift3 {
+  from { transform: translate(-50%, -50%) scale(1); }
+  to   { transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* ── Paper Texture ── */
+.paper-texture {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 27px,
+      rgba(139,99,85,0.035) 27px,
+      rgba(139,99,85,0.035) 28px
+    );
+}
+
+/* ── Floating Petals ── */
+.petal {
+  position: fixed;
+  top: -40px;
+  pointer-events: none;
+  z-index: 0;
+  animation: petalFall linear forwards;
+  opacity: 0;
+}
+@keyframes petalFall {
+  0%   { transform: translateY(0) rotate(0deg);   opacity: 0; }
+  8%   { opacity: 0.65; }
+  90%  { opacity: 0.35; }
+  100% { transform: translateY(105vh) rotate(900deg); opacity: 0; }
+}
+
+/* ── Layout ── */
+.wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.6rem 5rem;
+}
+
+/* ── Header ── */
+.site-header {
+  text-align: center;
+  padding: 3.5rem 0 0.5rem;
+}
+.header-deco {
+  font-size: 1.6rem;
+  letter-spacing: 0.7rem;
+  margin-bottom: 0.4rem;
+  display: block;
+  animation: sway 5s ease-in-out infinite;
+}
+@keyframes sway {
+  0%, 100% { transform: rotate(-1.5deg); }
+  50%       { transform: rotate(1.5deg); }
+}
+
+.logo {
+  position: relative;
+  display: inline-block;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(3.2rem, 10vw, 5.8rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--dusty-rose);
+  text-shadow: 4px 4px 0 rgba(217,139,139,0.18);
+}
+.logo-ornament {
+  position: absolute;
+  top: -0.25em; right: -0.45em;
+  font-size: 0.45em;
+  color: var(--sage);
+  font-style: normal;
+  animation: spinOrnament 10s linear infinite;
+}
+@keyframes spinOrnament { to { transform: rotate(360deg); } }
+
+.logo-sub {
+  font-family: 'Caveat', cursive;
+  font-size: 1.15rem;
+  color: var(--ink-faint);
+  margin-top: 0.4rem;
+  letter-spacing: 0.04em;
+}
+.ml-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.35rem 1.1rem;
+  background: var(--sage-pale);
+  border: 1.5px solid var(--sage-light);
+  border-radius: var(--radius-pill);
+  font-family: 'Caveat', cursive;
+  font-size: 0.98rem;
+  color: var(--sage);
+}
+.ml-dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  background: var(--sage);
+  border-radius: 50%;
+  animation: dotPulse 1.8s ease-in-out infinite;
+}
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.5); opacity: 0.6; }
+}
+
+/* ── Search Section ── */
+.search-section { margin: 2.2rem 0 0.6rem; }
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: var(--white-warm);
+  border: 2px solid var(--blush);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  box-shadow: 0 5px 24px var(--shadow-soft), 0 1px 4px rgba(0,0,0,0.04);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.search-box:focus-within {
+  border-color: var(--rose);
+  box-shadow: 0 6px 32px var(--shadow-hover), 0 1px 4px rgba(0,0,0,0.04);
+}
+.search-icon {
+  padding: 0 0.7rem 0 1.5rem;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  user-select: none;
+}
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'Lora', serif;
+  font-size: 1rem;
+  color: var(--ink);
+  padding: 1.1rem 0.5rem;
+  letter-spacing: 0.02em;
+}
+.search-input::placeholder { color: var(--ink-faint); font-style: italic; }
+.search-btn {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--rose), var(--dusty-rose));
+  border: none;
+  color: #fff;
+  font-family: 'Caveat', cursive;
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.9rem 1.9rem;
+  margin: 5px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  box-shadow: 0 3px 14px rgba(217,139,139,0.45);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.search-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(217,139,139,0.55);
+}
+.search-btn:active { transform: translateY(0) scale(0.97); }
+
+/* ── Stats Row ── */
+.stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.4rem;
+  margin-top: 1rem;
+  padding-left: 1.4rem;
+}
+.stat-pill {
+  font-family: 'Caveat', cursive;
+  font-size: 0.97rem;
+  color: var(--ink-faint);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.stat-pill strong { color: var(--rose); }
+
+/* ── Vector Visualiser ── */
+.vector-viz {
+  display: none;
+  margin: 1.1rem 0 0;
+  padding: 0.9rem 1.3rem;
+  background: var(--white-warm);
+  border: 1.5px dashed var(--blush);
+  border-radius: 18px;
+}
+.viz-label {
+  font-family: 'Caveat', cursive;
+  font-size: 0.98rem;
+  color: var(--ink-faint);
+  margin-bottom: 0.6rem;
+}
+.embedding-bars {
+  display: flex;
+  gap: 2px;
+  height: 40px;
+  align-items: flex-end;
+}
+.emb-bar {
+  flex: 1;
+  border-radius: 3px 3px 0 0;
+  transform-origin: bottom;
+  transform: scaleY(0);
+  animation: growBar 0.55s ease-out forwards;
+}
+@keyframes growBar { to { transform: scaleY(1); } }
+
+/* ── Suggestions ── */
+.suggestions-section { margin-bottom: 1.5rem; }
+.suggest-label {
+  font-family: 'Caveat', cursive;
+  font-size: 1.02rem;
+  color: var(--ink-faint);
+  margin-bottom: 0.55rem;
+  padding-left: 0.4rem;
+}
+.suggestions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chip {
+  padding: 0.4rem 1.05rem;
+  background: var(--white-warm);
+  border: 1.5px solid var(--blush);
+  border-radius: var(--radius-pill);
+  font-family: 'Caveat', cursive;
+  font-size: 0.97rem;
+  color: var(--ink-light);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition),
+              transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.chip:hover {
+  background: var(--blush);
+  border-color: var(--rose);
+  color: var(--ink);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(217,139,139,0.22);
+}
+
+/* ── Loading ── */
+.loading {
+  display: none;
+  text-align: center;
+  padding: 3.5rem 1rem;
+}
+.flower-spinner {
+  font-size: 2.8rem;
+  display: block;
+  margin: 0 auto 0.9rem;
+  animation: bloom 1.3s ease-in-out infinite;
+}
+@keyframes bloom {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50%       { transform: scale(1.35) rotate(180deg); }
+}
+.loading-text {
+  font-family: 'Caveat', cursive;
+  font-size: 1.15rem;
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+/* ── Results ── */
+#results { margin-top: 0.5rem; }
+
+.results-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.3rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1.5px dashed var(--blush);
+}
+.results-count {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--ink-light);
+}
+.results-count strong { color: var(--rose); }
+.sort-note {
+  font-family: 'Caveat', cursive;
+  font-size: 0.93rem;
+  color: var(--ink-faint);
+}
+
+/* ── Result Card ── */
+.result-card {
+  background: var(--white-warm);
+  border: 1.5px solid var(--blush);
+  border-radius: var(--radius-card);
+  padding: 1.5rem 1.7rem;
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 3px 14px var(--shadow-soft);
+  animation: cardIn 0.45s ease-out both;
+  transition: border-color var(--transition), box-shadow var(--transition),
+              transform var(--transition);
+}
+.result-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 5px;
+  background: linear-gradient(to bottom, var(--blush-deep), var(--sage-light));
+  border-radius: var(--radius-card) 0 0 var(--radius-card);
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.result-card:hover {
+  border-color: var(--rose);
+  box-shadow: 0 7px 28px var(--shadow-hover);
+  transform: translateY(-3px);
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+.card-left { flex: 1; }
+.card-emoji { font-size: 2rem; display: block; margin-bottom: 0.2rem; line-height: 1; }
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.card-latin {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+  margin-top: 0.15rem;
+}
+
+/* Similarity circle */
+.sim-box { text-align: center; flex-shrink: 0; }
+.sim-circle {
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  border: 2px solid var(--blush);
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--transition);
+}
+.result-card:hover .sim-circle { border-color: var(--rose); }
+.sim-pct {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--rose);
+  line-height: 1;
+}
+.sim-lbl {
+  font-family: 'Caveat', cursive;
+  font-size: 0.6rem;
+  color: var(--ink-faint);
+  line-height: 1;
+  margin-top: 1px;
+}
+
+/* Card body */
+.card-desc {
+  font-family: 'Lora', serif;
+  font-size: 0.92rem;
+  color: var(--ink-light);
+  line-height: 1.8;
+  margin-bottom: 0.9rem;
+}
+
+/* Tags */
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.tag {
+  padding: 0.2rem 0.75rem;
+  border-radius: var(--radius-pill);
+  font-family: 'Caveat', cursive;
+  font-size: 0.88rem;
+  transition: background var(--transition);
+}
+.tag-sage  { background: var(--sage-pale);  border: 1px solid var(--sage-light); color: var(--sage); }
+.tag-rose  { background: #fdeaea;           border: 1px solid var(--blush);      color: var(--rose); }
+.tag-lav   { background: var(--lav-pale);   border: 1px solid var(--lavender);   color: var(--mauve); }
+.card-type {
+  margin-left: auto;
+  font-family: 'Caveat', cursive;
+  font-size: 0.88rem;
+  color: var(--ink-faint);
+}
+
+/* Score row */
+.score-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 1.4rem;
+  margin-top: 0.7rem;
+  padding-top: 0.7rem;
+  border-top: 1px dashed var(--blush);
+  font-family: 'Caveat', cursive;
+  font-size: 0.88rem;
+  color: var(--ink-faint);
+}
+.score-details span { color: var(--dusty-rose); font-weight: 600; }
+
+/* Semantic token badges */
+.token-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.65rem;
+}
+.token {
+  padding: 0.15rem 0.55rem;
+  border-radius: 5px;
+  font-family: 'Caveat', cursive;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+.token-high { background: #fdeaea; color: var(--rose);    border: 1px solid var(--blush); }
+.token-mid  { background: var(--sage-pale); color: var(--sage); border: 1px solid var(--sage-light); }
+.token-low  { background: var(--parchment); color: var(--ink-faint); border: 1px solid #e8ddd0; }
+
+/* ── No Results ── */
+.no-results {
+  text-align: center;
+  padding: 4.5rem 2rem;
+}
+.no-results .icon { font-size: 3.5rem; margin-bottom: 0.8rem; display: block; }
+.no-results p {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  color: var(--ink-faint);
+  font-size: 1.05rem;
+}
+
+/* ── Footer ── */
+.site-footer {
+  text-align: center;
+  padding: 2rem 0;
+  border-top: 1px dashed var(--blush);
+  margin-top: 2.5rem;
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  color: var(--ink-faint);
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .search-icon { padding-left: 1rem; }
+  .search-btn  { padding: 0.85rem 1.2rem; font-size: 1rem; }
+  .stats-row   { padding-left: 0.3rem; }
+  .card-desc   { font-size: 0.88rem; }
+  .result-card { padding: 1.2rem 1.3rem; }
+  .logo        { font-size: clamp(2.8rem, 12vw, 5rem); }
+}
+@media (max-width: 400px) {
+  .header-deco { letter-spacing: 0.3rem; font-size: 1.2rem; }
+}

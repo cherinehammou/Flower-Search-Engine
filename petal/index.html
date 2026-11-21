@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Petal — Flower Search Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Ambient background blobs -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <!-- Paper texture -->
+  <div class="paper-texture" aria-hidden="true"></div>
+
+  <!-- Floating petals container -->
+  <div id="petals-container" aria-hidden="true"></div>
+
+  <div class="wrapper">
+
+    <!-- ── HEADER ── -->
+    <header class="site-header">
+      <div class="header-deco" aria-hidden="true">🌸 🌼 🌺 🌷 🌻 🌹 🪻</div>
+      <h1 class="logo">
+        <span class="logo-text">Petal</span>
+        <span class="logo-ornament" aria-hidden="true">✿</span>
+      </h1>
+      <p class="logo-sub">a cozy flower encyclopedia ✨</p>
+      <div class="ml-badge">
+        <span class="ml-dot" aria-hidden="true"></span>
+        150 flowers · TF-IDF Vectors · Claude AI Semantic Reranking
+      </div>
+    </header>
+
+    <!-- ── SEARCH ── -->
+    <section class="search-section" aria-label="Search flowers">
+      <div class="search-box" id="searchBox">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          placeholder="try 'fragrant pink wedding flowers'…"
+          autocomplete="off"
+          aria-label="Search flowers"
+        />
+        <button class="search-btn" id="searchBtn" aria-label="Search">
+          Search 🌸
+        </button>
+      </div>
+
+      <!-- Stats bar -->
+      <div class="stats-row">
+        <div class="stat-pill">🌷 <strong id="dbSize">150</strong> flowers indexed</div>
+        <div class="stat-pill">🧠 TF-IDF + Semantic AI</div>
+        <div class="stat-pill">📐 Cosine similarity</div>
+        <div class="stat-pill">✨ Claude reranking</div>
+      </div>
+
+      <!-- Embedding visualiser -->
+      <div class="vector-viz" id="vectorViz" aria-hidden="true">
+        <div class="viz-label">🌿 Query embedding visualisation (48 dims)</div>
+        <div class="embedding-bars" id="embBars"></div>
+      </div>
+    </section>
+
+    <!-- ── SUGGESTIONS ── -->
+    <section class="suggestions-section" aria-label="Search suggestions">
+      <p class="suggest-label">🌼 try searching for…</p>
+      <div class="suggestions" id="suggestions"></div>
+    </section>
+
+    <!-- ── LOADING ── -->
+    <div class="loading" id="loading" role="status" aria-live="polite" aria-label="Searching flowers">
+      <span class="flower-spinner" aria-hidden="true">🌸</span>
+      <p class="loading-text">Finding your perfect blooms…</p>
+    </div>
+
+    <!-- ── RESULTS ── -->
+    <section id="results" aria-label="Search results" aria-live="polite"></section>
+
+    <footer class="site-footer">
+      <p>made with 🌸 and neural networks &nbsp;·&nbsp; Petal Flower Search &nbsp;·&nbsp; 150 varieties</p>
+    </footer>
+
+  </div><!-- /.wrapper -->
+
+  <script src="flowers.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
